@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/key_use_auto_save"
+        android:title="@string/title_use_auto_save"
+        />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/key_computer_opponent"
+        android:title="@string/title_computer_opponent"/>
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/key_computer_starts"
+        android:title="@string/title_computer_starts"/>
+</PreferenceScreen>

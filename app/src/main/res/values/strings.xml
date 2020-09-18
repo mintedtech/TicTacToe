@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">Tic Tac Toe</string>
+
+    <!-- Board and winner Choices -->
+    <string name="x">X</string>
+    <string name="o">O</string>
+    <string name="no_winner">No Winner</string>
+
+    <!-- Error Messages -->
+    <string name="error_space_already_taken">That space is already taken.</string>
+    <string name="error_cannot_undo_this_move">Cannot undo this move.</string>
+
+    <!-- Info Messages -->
+    <string name="info_board_full">Board full; neither player has won.</string>
+    <string name="info_computer_goes_next">Computer will wait for its next available turn.</string>
+    <string name="info_defaultValue_lastTurnResults">Initial Turn:</string>
+    <string name="info_first_game_of_session">This is the first game of the session.</string>
+    <string name="info_game_already_over">The game has already ended.</string>
+    <string name="info_game_over">Game Over!</string>
+    <string name="info_game_resumed">Game resumed</string>
+    <string name="info_has_won"> has won!</string>
+
+    <!-- ActionBar Items -->
+    <string name="action_autoSaveGame">Auto-Save Game</string>
+    <string name="action_computerOpponent">Computer Opponent</string>
+    <string name="action_computerStarts">Computer Goes First</string>
+    <string name="action_newGame">New Game</string>
+    <string name="about">About</string>
+
+    <!-- About Dialog Items -->>
+    <string name="aboutDialogTitle">About TicTacToeTwo</string>
+    <string name="aboutDialog_banner"><![CDATA[© 2015–2020 SamuelA.\nEmail: mintedtech@gmail.com\n\nThanks to Touro College MCO 451/521 students for their in-class thoughts and ideas.]]></string>
+    <string name="OK">OK</string>
+
+    <!-- Status Bar Items -->
+    <string name="status_bar_text">Current player: X</string>
+    <string name="current_turn">"Current Turn: "</string>
+    <string name="chose">" chose: "</string>
+    <string name="row_colon">"Row "</string>
+    <string name="column_colon">"Column "</string>
+
+    <!-- Alternate Descriptions for ImageView images -->
+    <string name="current_turn_X">Current turn: X</string>
+    <string name="current_turn_O">Current turn: O</string>
+    <string name="board_space">Board Space</string>
+
+    <!-- Alternate Descriptions for ImageView images -->
+
+    <!-- Preference Key -->
+    <string name="key_use_auto_save">USE_AUTO_SAVE</string>
+    <string name="title_use_auto_save">Use Auto-Save</string>
+    <string name="key_computer_opponent">COMPUTER_OPPONENT</string>
+    <string name="title_computer_opponent">Computer Opponent</string>
+    <string name="key_computer_starts">COMPUTER_STARTS</string>
+    <string name="title_computer_starts">Computer Starts</string>
+</resources>

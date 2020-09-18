@@ -1,0 +1,40 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/action_newGame"
+        android:icon="@drawable/ic_launch_white_24dp"
+        android:title="@string/action_newGame"
+        app:showAsAction="ifRoom|withText" />
+
+    <item
+        android:id="@+id/action_autoSave"
+        android:title="@string/action_autoSaveGame"
+        android:checkable="true"
+        android:checked="false"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_computerOpponent"
+        android:title="@string/action_computerOpponent"
+        android:checkable="true"
+        android:checked="false"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_computerStarts"
+        android:title="@string/action_computerStarts"
+        android:checkable="true"
+        android:checked="false"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_about"
+        android:icon="@drawable/ic_info_white_24dp"
+        android:title="@string/about"
+        app:showAsAction="never"
+        />
+    <!--android:onClick="showAbout" -->
+</menu>

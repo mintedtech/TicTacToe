@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="color_yes">#245A24</color>
+    <color name="color_no">#5A2424</color>
+
+    <color name="colorSplashBackground">@android:color/background_dark</color>
+    <color name="colorBoardBackground">@color/colorPrimaryDark</color>
+</resources>
