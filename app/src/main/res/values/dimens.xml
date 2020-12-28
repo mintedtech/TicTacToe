@@ -3,4 +3,5 @@
     <dimen name="outside_half_margin">4dp</dimen>
     <dimen name="outside_margin">8dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_double_margin">32dp</dimen>
 </resources>

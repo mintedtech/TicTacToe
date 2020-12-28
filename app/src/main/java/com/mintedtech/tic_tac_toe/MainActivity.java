@@ -97,12 +97,27 @@ public class MainActivity extends AppCompatActivity
 
         initializePreferences ();
 
+        setupFAB();
         // If we are starting a fresh Activity (meaning, not after rotation), then do initial setup
         if (savedInstanceState == null) {
             setupInitialSession ();
         }
         // If we're in the middle of a game then onRestoreInstanceState will restore the App's state
 
+    }
+
+    private void setupFAB ()
+    {
+        findViewById (R.id.fab).setOnClickListener (new View.OnClickListener ()
+        {
+            @Override public void onClick (View v)
+            {
+                Snackbar.make (mSbParentView,
+                               "Three in a row, column or diagonal wins!",
+                               Snackbar.LENGTH_LONG)
+                        .show ();
+            }
+        });
     }
 
     private void initGUI ()

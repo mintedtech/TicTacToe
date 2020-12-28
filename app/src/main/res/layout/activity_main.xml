@@ -1,15 +1,19 @@
 <!-- cl_main is defined for use as the SnackBar's host View -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:id="@+id/cl_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <include layout="@layout/content_main" />
 
-        <include layout="@layout/main_include_all_items"/>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_double_margin"
+        android:layout_gravity="bottom|center_horizontal"
+        app:srcCompat="@android:drawable/ic_dialog_info"
+        android:contentDescription="@string/information" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
