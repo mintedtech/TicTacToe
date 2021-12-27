@@ -1,8 +1,10 @@
-package com.mintedtech.tic_tac_toe;
+package com.mintedtech.tic_tac_toe.activities;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+
+import com.mintedtech.tic_tac_toe.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;

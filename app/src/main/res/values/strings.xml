@@ -18,7 +18,7 @@
     <string name="info_first_game_of_session">This is the first game of the session.</string>
     <string name="info_game_already_over">The game has already ended.</string>
     <string name="info_game_over">Game Over!</string>
-    <string name="info_game_resumed">Game resumed</string>
+    <string name="info_game_restored">Game State Restored via Auto-Save</string>
     <string name="info_has_won"> has won!</string>
 
     <!-- ActionBar Items -->
@@ -30,7 +30,7 @@
 
     <!-- About Dialog Items -->>
     <string name="aboutDialogTitle">About TicTacToeTwo</string>
-    <string name="aboutDialog_banner"><![CDATA[© 2015–2020 SamuelA.\nEmail: mintedtech@gmail.com\n\nThanks to Touro College MCO 451/521 students for their in-class thoughts and ideas.]]></string>
+    <string name="aboutDialog_banner"><![CDATA[© 2015–2022 SamuelA.\nEmail: mintedtech@gmail.com\n\nThanks to Touro College MCO 451/521 students for their in-class thoughts and ideas.]]></string>
     <string name="OK">OK</string>
 
     <!-- Status Bar Items -->
@@ -45,7 +45,13 @@
     <string name="current_turn_O">Current turn: O</string>
     <string name="board_space">Board Space</string>
 
-    <!-- Alternate Descriptions for ImageView images -->
+    <!-- Strings used for Statistics Activity -->
+    <string name="games_played"><![CDATA[Games played: ]]></string>
+    <string name="player_number">Player\nNumber</string>
+    <string name="games_won">Games\nWon</string>
+    <string name="percent_won">Percent\nWon</string>
+    <string name="view_statistics">View Statistics</string>
+    <string name="reset_statistics">Reset Statistics</string>
 
     <!-- Preference Key -->
     <string name="key_use_auto_save">USE_AUTO_SAVE</string>
@@ -55,4 +61,7 @@
     <string name="key_computer_starts">COMPUTER_STARTS</string>
     <string name="title_computer_starts">Computer Starts</string>
     <string name="banner_text">Please tap on a square</string>
+    <string name="info_first_turn_of_the_game">First turn of the game.</string>
+    <string name="fab">FAB</string>
+    <string name="title_activity_statistics">Statistics</string>
 </resources>

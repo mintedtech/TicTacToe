@@ -1,20 +1,19 @@
-package com.mintedtech.tic_tac_toe;
+package com.mintedtech.tic_tac_toe.classes;
 
-import android.content.Context;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.mintedtech.tic_tac_toe.R;
+import com.mintedtech.tic_tac_toe.interfaces.OnItemClickCustomListener;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CardViewImageAdapter extends RecyclerView.Adapter<CardViewImageAdapter.ViewHolder>
+public class CardViewImageAdapter extends RecyclerView.Adapter<CardImageViewHolder>
 {
-    private static OIClickListener sOIClickListener;
+    public static OnItemClickCustomListener sOnItemClickListener;
     private final int[] mImages, mImageTints;
     private final int mINVALID_FLAG = -99;
     private final int mDefaultDrawableID;
@@ -91,26 +90,25 @@ public class CardViewImageAdapter extends RecyclerView.Adapter<CardViewImageAdap
     }
 
     @NonNull @Override
-    public CardViewImageAdapter.ViewHolder onCreateViewHolder (ViewGroup parent, int viewType)
+    public CardImageViewHolder onCreateViewHolder (ViewGroup parent, int viewType)
     {
         // Inflate a new layout that consists of what is contained in the RV Item XML file
         View itemLayoutView = LayoutInflater.from (parent.getContext ())
                 .inflate (R.layout.rv_card_image_item, parent, false);
 
         // Create a new ViewHolder with that newly-inflated View
-        CardViewImageAdapter.ViewHolder viewHolder = new ViewHolder (itemLayoutView);
-        adjustScaling (viewHolder, parent.getContext ());
+        //adjustScaling (cardImageViewHolder, parent.getContext ());
 
         // return the created and then modified ViewHolder
-        return viewHolder;
+        return new CardImageViewHolder (itemLayoutView);
     }
 
-    private void adjustScaling (ViewHolder viewHolder, Context context)
+   /* private void adjustScaling (CardImageViewHolder cardImageViewHolder, Context context)
     {
         // Scale that ImageView's height to match a portion of the actual screen size...
 
         // Get a reference to the ImageView inside this newly-inflated View
-        ImageView imageInNewlyInflatedView = viewHolder.mCurrentImageView;
+        ImageView imageInNewlyInflatedView = cardImageViewHolder.mCurrentImageView;
 
         // Get a reference to the already existing LayoutParameters
         ViewGroup.LayoutParams currentLayoutParams = imageInNewlyInflatedView.getLayoutParams ();
@@ -151,9 +149,9 @@ public class CardViewImageAdapter extends RecyclerView.Adapter<CardViewImageAdap
         // create the values for LayoutParameter
         HEIGHT_PARAMETER = (int) (screenHeight / scaleVertical);
         return HEIGHT_PARAMETER;
-    }
+    }*/
 
-    @Override public void onBindViewHolder (CardViewImageAdapter.ViewHolder holder, int position)
+    @Override public void onBindViewHolder (CardImageViewHolder holder, int position)
     {
         ImageView currentImageView = holder.mCurrentImageView;
         currentImageView.setImageResource (mImages[position]);
@@ -192,38 +190,9 @@ public class CardViewImageAdapter extends RecyclerView.Adapter<CardViewImageAdap
         return mImageTints.clone();
     }
 
-    public void setOnItemClickListener (OIClickListener oiClickListener)
+    public void setOnItemClickListener (OnItemClickCustomListener onItemClickListener)
     {
-        CardViewImageAdapter.sOIClickListener = oiClickListener;
-    }
-
-    // Inner Class - references a RecyclerView View item
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-    {
-        // must be public and final so that it is accessible in the outer class
-        final ImageView mCurrentImageView;
-
-        // The constructor calls super and creates a public reference to this ViewHolder's ImageView
-        // sets this current class to handle any clicks, which passes that to the calling Activity
-        // if that calling activity implements OIClickListener, which it should
-        public ViewHolder (View itemLayoutView)
-        {
-            super (itemLayoutView);
-            mCurrentImageView = itemLayoutView.findViewById (R.id.rv_image_item);
-            itemLayoutView.setOnClickListener (this);
-        }
-
-        @Override
-        public void onClick (View v)
-        {
-            sOIClickListener.onItemClick (getAdapterPosition (), v);
-        }
-    }
-    // used to send data out of Adapter - implemented in the calling Activity/Fragment
-    @SuppressWarnings ("UnusedParameters")
-    public interface OIClickListener
-    {
-        void onItemClick (int position, View v);
+        CardViewImageAdapter.sOnItemClickListener = onItemClickListener;
     }
 }
 

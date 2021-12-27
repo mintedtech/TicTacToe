@@ -1,11 +1,9 @@
-package com.mintedtech.tic_tac_toe;
+package com.mintedtech.tic_tac_toe.activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +12,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.mintedtech.tic_tac_toe.R;
+import com.mintedtech.tic_tac_toe.classes.CardViewImageAdapter;
+import com.mintedtech.tic_tac_toe.enums.PlayerTurn;
+import com.mintedtech.tic_tac_toe.enums.WinType;
+import com.mintedtech.tic_tac_toe.enums.WinTypeDiagonal;
+import com.mintedtech.tic_tac_toe.interfaces.OnItemClickCustomListener;
+import com.mintedtech.tic_tac_toe.models.TicTacToe;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -26,50 +31,35 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-enum WinType
-{
-    NONE, ROW, COLUMN, DIAGONAL
-}
-
-enum WinTypeDiagonal
-{
-    UPPER_LEFT_TO_LOWER_RIGHT, LOWER_LEFT_TO_UPPER_RIGHT
-}
-
 public class MainActivity extends AppCompatActivity
 {
     // named constants (finals)
-    private final int mEMPTY_SPACE = R.drawable.ic_xo_light, mINVALID_ICON_VALUE_FLAG = -99;
+    private final int mEMPTY_SPACE = R.drawable.ic_xo_light,
+            mINVALID_ICON_VALUE_FLAG = -99;
+
     private int mOLD_ICON_X, mOLD_ICON_O, mOLD_ICON_XO;
 
     // primitives and Strings
-    private boolean mTurnX, mPrefUseAutoSave, mGameOver,
-            mPrefComputerOpponent, mPrefComputerStarts;
-    private String mLastGameResultsMessage, mLastWinner, mLastTurnResults;
-    private int[] mWinningSpaces;
-    private WinType mWinType;
-    private WinTypeDiagonal mWinTypeDiagonal;
-    private int mCurrentPosition, mPriorPosition = mINVALID_ICON_VALUE_FLAG;
+    private boolean mPrefUseAutoSave, mPrefComputerOpponent, mPrefComputerStarts;
+    private String mLastGameResultsMessage, mLastTurnResults;
 
     // These values are coded here rather than in strings.xml because they are not used elsewhere
     // If these keys might be read in another Activity then the values should instead be put in xml
     // Keys reference in both Java and XML - values stored in strings.xml
-    private String mKEY_USE_AUTO_SAVE,
-            mKEY_COMPUTER_OPPONENT, mKEY_COMPUTER_STARTS;
+    private String mKEY_USE_AUTO_SAVE, mKEY_COMPUTER_OPPONENT, mKEY_COMPUTER_STARTS;
 
     // Keys referenced only in Java - values stored here
-    private final String mKEY_PLAYER = "CURRENT_PLAYER";
     private final String mKEY_BOARD = "BOARD";
     private final String mKEY_TINTS = "TINTS";
-    private final String mKEY_GAME_OVER = "GAME_OVER";
+    private final String mKEY_GAME = "GAME";
     private final String mKEY_LAST_TURN_RESULTS = "LAST_TURN_RESULTS";
     private final String mPREFS = "PREFS";
-    private final String mKEY_CURRENT_POSITION = "PRIOR_POSITION";
-    private final String mKEY_PRIOR_POSITION = "PRIOR_POSITION";
     private final String mKEY_LAST_RESULT = "LAST_RESULT";
     private final String mKEY_ICON_X = "ICON_X";
     private final String mKEY_ICON_O = "ICON_O";
     private final String mKEY_ICON_XO = "ICON_XO";
+
+    private TicTacToe mCurrentGame;
 
     // Reference to our custom Adapter used to create and maintain a board in our GridView here
     private CardViewImageAdapter mAdapter;
@@ -86,44 +76,22 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate (Bundle savedInstanceState)
     {
         super.onCreate (savedInstanceState);
-
         setContentView (R.layout.activity_main);
-
-        initGUI ();
-
-        createUnfilledBoard ();
-
-        initializeSnackBar ();
-
-        initializePreferences ();
-
-        setupFAB();
-        // If we are starting a fresh Activity (meaning, not after rotation), then do initial setup
-        if (savedInstanceState == null) {
-            setupInitialSession ();
-        }
-        // If we're in the middle of a game then onRestoreInstanceState will restore the App's state
-
+        setupViews ();
+        setupRV ();
+        initializePreferenceKeys ();
+        initializeViewAndModel (savedInstanceState);
     }
 
-    private void setupFAB ()
-    {
-        findViewById (R.id.fab).setOnClickListener (new View.OnClickListener ()
-        {
-            @Override public void onClick (View v)
-            {
-                Snackbar.make (mSbParentView,
-                               "Three in a row, column or diagonal wins!",
-                               Snackbar.LENGTH_LONG)
-                        .show ();
-            }
-        });
-    }
 
-    private void initGUI ()
+    private void setupViews ()
     {
         initializeStatusItems ();
         initializeSwipeRefreshLayout ();
+        initializeSnackBar ();
+        findViewById (R.id.fab).setOnClickListener (
+                v -> Snackbar.make (mSbParentView, R.string.information,
+                                    Snackbar.LENGTH_LONG).show ());
     }
 
     /**
@@ -137,20 +105,26 @@ public class MainActivity extends AppCompatActivity
         mStatusBar = findViewById (R.id.tv_status);
     }
 
+    private void initializeViewAndModel (Bundle savedInstanceState)
+    {
+        // If we are starting a fresh Activity (meaning, not after rotation), then do initial setup
+        if (savedInstanceState == null) {
+            mCurrentGame = new TicTacToe ((int) Math.sqrt (mAdapter.getItemCount ()));
+            setupInitialSession ();
+        }
+        // If we're in the middle of a game then onRestoreInstanceState will restore the App's state
+    }
+
     /**
      * This has what to do when the user swipes to refresh, including the anonymous inner-class
      */
     private void initializeSwipeRefreshLayout ()
     {
         mSwipeRefreshLayout = findViewById (R.id.swipe_refresh);
-        mSwipeRefreshLayout.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener ()
-        {
-            @Override
-            public void onRefresh ()
-            {
-                prepareForNewGame ();
-                startNewOrResumeGameState ();
-            }
+        mSwipeRefreshLayout.setOnRefreshListener (() -> {
+            prepareForNewGame ();
+            mCurrentGame.startGame ();
+            startNewOrResumeGameState ();
         });
     }
 
@@ -158,30 +132,43 @@ public class MainActivity extends AppCompatActivity
      * Creates an unfilled board, which includes creating the array of winning spaces (9/3 elements)
      * and the RecyclerView grid, including layout... and an instance of out custom adapter class.
      */
-    private void createUnfilledBoard ()
+    private void setupRV ()
     {
-        final int TOTAL_SPACES = 9;
-
-        // create an array to hold the winning spaces to send to adapter
-        mWinningSpaces = new int[(int) (Math.sqrt (TOTAL_SPACES))];
+        final int totalSpaces = 9;
 
         // Create the adapter for later use in the RecyclerView
-        mAdapter = new CardViewImageAdapter (TOTAL_SPACES, R.drawable.ic_xo_light);
+        mAdapter = new CardViewImageAdapter (totalSpaces, R.drawable.ic_xo_light);
 
         // set the listener which will listen to the clicks in the RecyclerView
         mAdapter.setOnItemClickListener (listener);
 
         // get a reference to the RecyclerView
-        RecyclerView board = findViewById (R.id.rv_board);
-        assert board != null;
+        RecyclerView rvBoard = findViewById (R.id.rv_board);
 
-        // get a reference to a new LayoutManager for the RecyclerView
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager (this, 3);
+        // Create a new LayoutManager object to be used in the RecyclerView
+        int rvColumnCount = (int) Math.sqrt (mAdapter.getItemCount ());
+        RecyclerView.LayoutManager layoutManager =
+                new GridLayoutManager (this, rvColumnCount)
+                {
+                    @Override public boolean checkLayoutParams (RecyclerView.LayoutParams lp)
+                    {
+                        // Desired height seems to be slightly less than 1/3rd, due to padding/etc.?
+                        // But the precise number is slightly different for portrait and landscape
+                        double offset = getWidth () > getHeight () ? .13 : .12;
+
+                        // Size the height of each to have the entire RV fill the screen
+                        // Since this is a symmetrical grid, column count == row count
+                        lp.height = (int) (getHeight () / (rvColumnCount + offset));
+                        return true; // instead of super.checkLayoutParams (lp);
+                    }
+                };
+
+        // apply the Layout Manager object just created to the RecyclerView
+        rvBoard.setLayoutManager (layoutManager);
 
         // set the adapter as the data source (model) for the RecyclerView
-        board.setHasFixedSize (true);
-        board.setLayoutManager (layoutManager);
-        board.setAdapter (mAdapter);
+        rvBoard.setHasFixedSize (true);
+        rvBoard.setAdapter (mAdapter);
     }
 
     /**
@@ -203,7 +190,7 @@ public class MainActivity extends AppCompatActivity
     /**
      * These variables will hold the user's choices regarding auto-save and computer player/start
      */
-    private void initializePreferences ()
+    private void initializePreferenceKeys ()
     {
         mKEY_USE_AUTO_SAVE = getString (R.string.key_use_auto_save);
         mKEY_COMPUTER_OPPONENT = getString (R.string.key_computer_opponent);
@@ -227,6 +214,7 @@ public class MainActivity extends AppCompatActivity
     {
         mLastGameResultsMessage = getString (R.string.info_first_game_of_session);
         prepareForNewGame ();
+        mCurrentGame.startGame ();
         restoreAllDataFromPrefs ();
         startNewOrResumeGameState ();
     }
@@ -234,54 +222,25 @@ public class MainActivity extends AppCompatActivity
     private void prepareForNewGame ()
     {
         mAdapter.resetAllImagesAndTints ();
-
-        resetGameAndTurnStatus ();
-
-        resetCurrentAndPriorPositions ();
-
+        mLastTurnResults = getString (R.string.info_first_turn_of_the_game);
         dismissSnackBarIfShown ();
     }
 
-    /**
-     * Note: X always goes first, but the user may set either the human or computer to play first
-     */
-    private void resetGameAndTurnStatus ()
+    private void updateUIWithCurrentPlayer ()
     {
-        mGameOver = false;
-        mLastTurnResults = "First turn of the game:";
-        setCurrentPlayerToX (true);
-    }
-
-    private void setCurrentPlayerToX (boolean newValueOfX)
-    {
-        mTurnX = newValueOfX;
-
         updateTintOfImagesXO ();
-        updateStatusBarWithCurrentTurn ();
+        mStatusBar.setText (getString (R.string.current_turn).concat
+                (mCurrentGame.getCurrentPlayer ().toString ()));
     }
 
     private void updateTintOfImagesXO ()
     {
-        int colorForLetterX = mTurnX ? R.color.color_yes : R.color.color_no;
-        int colorForLetterO = mTurnX ? R.color.color_no : R.color.color_yes;
+        boolean isCurrentTurnX = mCurrentGame.getCurrentPlayer () == PlayerTurn.X;
+        int colorForLetterX = isCurrentTurnX ? R.color.color_yes : R.color.color_no;
+        int colorForLetterO = isCurrentTurnX ? R.color.color_no : R.color.color_yes;
 
         mImageX.setColorFilter (ContextCompat.getColor (this, colorForLetterX));
         mImageO.setColorFilter (ContextCompat.getColor (this, colorForLetterO));
-    }
-
-    private void updateStatusBarWithCurrentTurn ()
-    {
-        String currentPlayer = getCurrentPlayer ();
-        mStatusBar.setText (getString (R.string.current_turn).concat (currentPlayer));
-    }
-
-    /**
-     * This data is for the SnackBar that is displayed at the end of each turn
-     */
-    private void resetCurrentAndPriorPositions ()
-    {
-        mPriorPosition = mINVALID_ICON_VALUE_FLAG;
-        mCurrentPosition = mINVALID_ICON_VALUE_FLAG;
     }
 
     /**
@@ -325,27 +284,29 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences preferences = getSharedPreferences (mPREFS, MODE_PRIVATE);
 
         if (mPrefUseAutoSave) {
+            // restore Model
+            String restoredGame = preferences.getString (mKEY_GAME, null);
 
-            // restore "game-over" state
-            mGameOver = preferences.getBoolean (mKEY_GAME_OVER, false);
+            if (restoredGame != null) {
+                // restore the last turn
+                mLastTurnResults = preferences.getString (mKEY_LAST_TURN_RESULTS,
+                                                          getString (
+                                                                  R.string.info_defaultValue_lastTurnResults));
 
-            // restore the last turn
-            mLastTurnResults = preferences.getString (mKEY_LAST_TURN_RESULTS,
-                                                      getString (
-                                                              R.string.info_defaultValue_lastTurnResults));
+                restoreAllBoardData (preferences);
 
-            // restore the current and prior spaces
-            mCurrentPosition = preferences.getInt (mKEY_CURRENT_POSITION, mINVALID_ICON_VALUE_FLAG);
-            mPriorPosition = preferences.getInt (mKEY_PRIOR_POSITION, mINVALID_ICON_VALUE_FLAG);
+                mCurrentGame = TicTacToe.getGameFromJSON (restoredGame);
 
-            restoreAllBoardData (preferences);
+                // restore current player
+                updateUIWithCurrentPlayer ();
 
-            // restore current player
-            setCurrentPlayerToX (preferences.getBoolean (mKEY_PLAYER, true));
+                doPostPlayerTurn ();
 
-            // Show Last Results
-            mSbGame.setText (
-                    mLastTurnResults.concat ("\n" + getString (R.string.info_game_resumed)));
+                // Show Last Results
+                mSbGame.setText (
+                        mLastTurnResults.concat (
+                                "\n" + getString (R.string.info_game_restored))).show ();
+            }
         }
     }
 
@@ -397,7 +358,7 @@ public class MainActivity extends AppCompatActivity
     private void restoreTintsIfGameOver (SharedPreferences preferences)
     {
         // tints are not used unless the game is over
-        if (mGameOver) {
+        if (mCurrentGame.isGameOver ()) {
             String currentKeyName;
             int currentSpaceTint;
 
@@ -433,12 +394,16 @@ public class MainActivity extends AppCompatActivity
      */
     private void startNewOrResumeGameState ()
     {
+        updateTintOfImagesXO ();
+
         // regardless of how we got here (via listener, MenuItem click, etc), turn off animation
         mSwipeRefreshLayout.setRefreshing (false);
 
         // If the user chooses to have a computer opponent and that the computer should start (X)
         // and it is currently turn x (always first player)
-        if (!mGameOver && mPrefComputerOpponent && mPrefComputerStarts & mTurnX) {
+        if (!mCurrentGame.isGameOver () &&
+                mPrefComputerOpponent && mPrefComputerStarts &&
+                mCurrentGame.getCurrentPlayer () == PlayerTurn.X) {
             doComputerTurnCycle ();
         }
     }
@@ -473,8 +438,8 @@ public class MainActivity extends AppCompatActivity
 
         outState.putString (mKEY_LAST_TURN_RESULTS, mLastTurnResults);
 
-        // save the "game over" state
-        outState.putBoolean (mKEY_GAME_OVER, mGameOver);
+        // save the game Model
+        outState.putString (mKEY_GAME, mCurrentGame.getJSONFromCurrentGame ());
 
         // save the user's choice of opponent and start
         outState.putBoolean (mKEY_COMPUTER_OPPONENT, mPrefComputerOpponent);
@@ -482,13 +447,6 @@ public class MainActivity extends AppCompatActivity
 
         // save the current autoSave boolean
         outState.putBoolean (mKEY_USE_AUTO_SAVE, mPrefUseAutoSave);
-
-        //save the current player
-        outState.putBoolean (mKEY_PLAYER, mTurnX);
-
-        //save the current and prior spaces chosen
-        outState.putInt (mKEY_CURRENT_POSITION, mCurrentPosition);
-        outState.putInt (mKEY_PRIOR_POSITION, mPriorPosition);
 
         // save the board layout as a whole to the bundle to be saved
         outState.putIntArray (mKEY_BOARD, mAdapter.getAllImages ());
@@ -509,27 +467,22 @@ public class MainActivity extends AppCompatActivity
         // Restore contents of views, etc. automatically
         super.onRestoreInstanceState (savedInstanceState);
 
+        // restore game
+        mCurrentGame = TicTacToe.getGameFromJSON (savedInstanceState.getString (mKEY_GAME));
+
         // restore autoSave
         mPrefUseAutoSave = savedInstanceState.getBoolean (mKEY_USE_AUTO_SAVE);
-
         mLastTurnResults = savedInstanceState.getString (mKEY_LAST_TURN_RESULTS);
 
         // restore the user's choice of opponent and start
         mPrefComputerOpponent = savedInstanceState.getBoolean (mKEY_COMPUTER_OPPONENT);
         mPrefComputerStarts = savedInstanceState.getBoolean (mKEY_COMPUTER_STARTS);
 
-        // restore game over
-        mGameOver = savedInstanceState.getBoolean (mKEY_GAME_OVER);
-
         // restore the results of the last game
         mLastGameResultsMessage = savedInstanceState.getString (mKEY_LAST_RESULT);
 
         // restore the current player
-        setCurrentPlayerToX (savedInstanceState.getBoolean (mKEY_PLAYER));
-
-        // restore the current and prior spaces
-        mCurrentPosition = savedInstanceState.getInt (mKEY_CURRENT_POSITION);
-        mPriorPosition = savedInstanceState.getInt (mKEY_PRIOR_POSITION);
+        updateUIWithCurrentPlayer ();
 
         // restore the game board one space at a time
         restoreBoardFromSavedState (savedInstanceState);
@@ -574,18 +527,11 @@ public class MainActivity extends AppCompatActivity
 
     private void showGameOverSnackBarIfGameOver ()
     {
-        if (mGameOver) {
+        if (mCurrentGame.isGameOver ()) {
             showGameOverSB (false);
         }
     }
 
-/*
-    // ------------------------------------------------------------------------------------------
-    // Handle Android life-cycle onPause event
-    // Specifically, in case the user swipes away the app (removes it from RAM),
-    // Make sure the board and preferences have already been saved to SharedPreferences
-    // ------------------------------------------------------------------------------------------
-*/
 
     /**
      * In addition to the super-class's onPause, save the board to shared prefs now, just in case...
@@ -615,6 +561,7 @@ public class MainActivity extends AppCompatActivity
         editor.putBoolean (mKEY_COMPUTER_OPPONENT, mPrefComputerOpponent);
         editor.putBoolean (mKEY_COMPUTER_STARTS, mPrefComputerStarts);
 
+
         // if autoSave is on then save the board
         saveBoardToSharedPrefsIfAutoSaveIsOn (editor);
 
@@ -627,21 +574,16 @@ public class MainActivity extends AppCompatActivity
     {
         // (Only) if autoSave is enabled, then save the board and current player to the SP file
         if (mPrefUseAutoSave) {
+            // save model
+            editor.putString (mKEY_GAME, mCurrentGame.getJSONFromCurrentGame ());
 
             // save "game over" state
-            editor.putBoolean (mKEY_GAME_OVER, mGameOver);
+            editor.putString (mKEY_GAME, mCurrentGame.getJSONFromCurrentGame ());
 
             // save last turn information
             editor.putString (mKEY_LAST_TURN_RESULTS, mLastTurnResults);
 
-            // save current and prior spaces
-            editor.putInt (mKEY_CURRENT_POSITION, mCurrentPosition);
-            editor.putInt (mKEY_PRIOR_POSITION, mPriorPosition);
-
             saveAllBoardData (editor);
-
-            // save current player (X or O) to SharedPreferences
-            editor.putBoolean (mKEY_PLAYER, mTurnX);
         }
     }
 
@@ -685,7 +627,7 @@ public class MainActivity extends AppCompatActivity
     {
 
         // There are no tints unless the game has ended
-        if (mGameOver) {
+        if (mCurrentGame.isGameOver ()) {
             int[] currentTint = mAdapter.getAllImageTints ();
             for (int i = 0; i < currentTint.length; i++) {
                 editor.putLong (mKEY_TINTS + i, currentTint[i]);
@@ -727,51 +669,60 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId ();
+        int itemId = item.getItemId ();
 
-        switch (id) {
-
-            case R.id.action_newGame: {
-
-                startNewGameIncludingSRAnimation ();
-                return true;
-            }
-
-            case R.id.action_autoSave: {
-
-                toggleItemCheck (item);
-                mPrefUseAutoSave = item.isChecked ();
-                return true;
-            }
-            case R.id.action_computerOpponent: {
-
-                toggleItemCheck (item);
-                mPrefComputerOpponent = item.isChecked ();
-                doComputerTurnCycleIfCheckedAndNotGameOverAndIsComputerTurn ();
-                return true;
-            }
-            case R.id.action_computerStarts: {
-
-                toggleItemCheck (item);
-                mPrefComputerStarts = item.isChecked ();
-                doComputerTurnCycleIfCheckedAndNotGameOverAndIsComputerTurn ();
-                return true;
-            }
-            case R.id.action_about: {
-                showTTTDialog (getString (R.string.aboutDialogTitle),
-                               getString (R.string.aboutDialog_banner)
-                );
-                return true;
-            }
+        if (itemId == R.id.action_newGame) {
+            startNewGame ();
+            return true;
+        }
+        else if (itemId == R.id.action_autoSave) {
+            toggleItemCheck (item);
+            mPrefUseAutoSave = item.isChecked ();
+            return true;
+        }
+        else if (itemId == R.id.action_computerOpponent) {
+            toggleItemCheck (item);
+            mPrefComputerOpponent = item.isChecked ();
+            doComputerTurnCycleIfCheckedAndNotGameOverAndIsComputerTurn ();
+            return true;
+        }
+        else if (itemId == R.id.action_computerStarts) {
+            toggleItemCheck (item);
+            mPrefComputerStarts = item.isChecked ();
+            doComputerTurnCycleIfCheckedAndNotGameOverAndIsComputerTurn ();
+            return true;
+        }
+        else if (itemId == R.id.action_statistics) {
+            showStatistics ();
+            return true;
+        }
+        else if (itemId == R.id.action_reset_stats) {
+            mCurrentGame.resetStatistics ();
+            return true;
+        }
+        else if (itemId == R.id.action_about) {
+            showTTTDialog (getString (R.string.aboutDialogTitle),
+                           getString (R.string.aboutDialog_banner)
+            );
+            return true;
         }
         return super.onOptionsItemSelected (item);
     }
 
-    private void startNewGameIncludingSRAnimation ()
+    private void showStatistics ()
+    {
+        dismissSnackBarIfShown ();
+        Intent intent = new Intent (getApplicationContext (), StatisticsActivity.class);
+        intent.putExtra ("GAME", mCurrentGame.getJSONFromCurrentGame ());
+        startActivity (intent);
+    }
+
+    private void startNewGame ()
     {
         // start animation
         mSwipeRefreshLayout.setRefreshing (true);
         prepareForNewGame ();
+        mCurrentGame.startGame ();
         startNewOrResumeGameState ();
     }
 
@@ -783,8 +734,10 @@ public class MainActivity extends AppCompatActivity
 
     private void doComputerTurnCycleIfCheckedAndNotGameOverAndIsComputerTurn ()
     {
-        if (mPrefComputerOpponent && !mGameOver &&
-                (mPrefComputerStarts && mTurnX || !mPrefComputerStarts && !mTurnX)) {
+        boolean isNowTurnX = mCurrentGame.getCurrentPlayer () == PlayerTurn.X;
+
+        if (mPrefComputerOpponent && !mCurrentGame.isGameOver () &&
+                (mPrefComputerStarts && isNowTurnX || !mPrefComputerStarts && !isNowTurnX)) {
             doComputerTurnCycle ();
         }
     }
@@ -799,11 +752,11 @@ public class MainActivity extends AppCompatActivity
     private void showTTTDialog (String title, String message)
     {
         // Create listener for use with dialog window (could also be created anonymously below...
-        DialogInterface.OnClickListener dialogOnClickListener =
-                createTTTOnClickListener ();
+        DialogInterface.OnClickListener dialogListener = (dialog, which) -> dialog.dismiss ();
+
 
         // Create dialog window
-        AlertDialog TTTAlertDialog = initDialog (title, message, dialogOnClickListener);
+        AlertDialog TTTAlertDialog = initDialog (title, message, dialogListener);
 
         // Show the dialog window
         TTTAlertDialog.show ();
@@ -823,29 +776,16 @@ public class MainActivity extends AppCompatActivity
         return TTTAlertDialog;
     }
 
-    private DialogInterface.OnClickListener createTTTOnClickListener ()
-    {
-        return new DialogInterface.OnClickListener ()
-        {
-            @Override
-            public void onClick (DialogInterface dialog, int which)
-            {
-                // nothing to do
-            }
-        };
-    }
-
     /**
      * This object of our custom Listener class handles events in the adapter; created here anon.
      * This leaves the Adapter to handle the Model part of MVC, not View or Controller
      */
-    private final CardViewImageAdapter.OIClickListener
-            listener = new CardViewImageAdapter.OIClickListener ()
+    private final OnItemClickCustomListener listener = new OnItemClickCustomListener ()
     {
         public void onItemClick (int position, View view)
         {
             // if the game is already over then there is nothing more to do here
-            if (mGameOver) {
+            if (mCurrentGame.isGameOver ()) {
                 showGameOverSB (true);
             }
             // If the current space is empty and, therefore available and thus a valid space
@@ -867,8 +807,10 @@ public class MainActivity extends AppCompatActivity
     {
         doHumanTurnCycle (position);
 
-        if (mPrefComputerOpponent && !mGameOver) {
-            if (mPrefComputerStarts && mTurnX || !mPrefComputerStarts && !mTurnX) {
+        boolean isCurrentTurnX = mCurrentGame.getCurrentPlayer () == PlayerTurn.X;
+
+        if (mPrefComputerOpponent && !mCurrentGame.isGameOver ()) {
+            if (mPrefComputerStarts && isCurrentTurnX || !mPrefComputerStarts && !isCurrentTurnX) {
                 doComputerTurnCycle ();
             }
             else {
@@ -897,22 +839,26 @@ public class MainActivity extends AppCompatActivity
      */
     private void doPlayerTurn (final int position)
     {
+        int rvColumnCount = (int) Math.sqrt (mAdapter.getItemCount ());
+        int row = position / rvColumnCount;
+        int col = position % rvColumnCount;
+
+        // update the model
+        mCurrentGame.attemptTurn (row, col);
+
         // change the icon at that position from empty to either X or O as appropriate
-        mAdapter.setImage (position, getIconForCurrentPlayer ());
-        updateMemberPositions (position);
+        // icon must be for prior player because model already moved on to next player
+        mAdapter.setImage (position, getIconForPriorPlayer ());
     }
 
 
-    private int getIconForCurrentPlayer ()
+    private int getIconForPriorPlayer ()
     {
         // Reference to X or O, depending on value of mTurnX (which player's turn it is)
-        return mTurnX ? R.drawable.ic_x : R.drawable.ic_o;
-    }
-
-    private void updateMemberPositions (int position)
-    {
-        mPriorPosition = mCurrentPosition;
-        mCurrentPosition = position;
+        PlayerTurn currentPlayer = mCurrentGame.isGameOver () ?
+                                   mCurrentGame.getCurrentPlayer () :
+                                   mCurrentGame.getPriorPlayer ();
+        return currentPlayer == PlayerTurn.X ? R.drawable.ic_x : R.drawable.ic_o;
     }
 
 
@@ -928,14 +874,8 @@ public class MainActivity extends AppCompatActivity
         int totalSpaces = mAdapter.getItemCount ();
         int rowsAndColumns = (int) Math.sqrt (totalSpaces);
 
-        int oneBasePosition = position + 1;
-        int row = (oneBasePosition / rowsAndColumns) + 1;
-        int col = oneBasePosition % rowsAndColumns;
-
-        if (col == 0) {
-            row--;
-            col = rowsAndColumns;
-        }
+        int row = position / rowsAndColumns;
+        int col = position % rowsAndColumns;
 
         return getString (R.string.row_colon) + row + ", " + getString (
                 R.string.column_colon) + col;
@@ -943,79 +883,63 @@ public class MainActivity extends AppCompatActivity
 
     private void showRowAndColumnAt (final int position, String strPosition)
     {
-        String msg = getCurrentPlayer () + getString (R.string.chose) + strPosition + '.';
+        PlayerTurn currentPlayer = mCurrentGame.isGameOver () ?
+                                   mCurrentGame.getCurrentPlayer () :
+                                   mCurrentGame.getPriorPlayer ();
+
+        String msg = (currentPlayer) + getString (R.string.chose) + strPosition + '.';
 
         // Create SnackBar with status message of this past turn
-        mSbGame =
-                Snackbar.make (mSbParentView, mLastTurnResults + "\n" + msg, Snackbar.LENGTH_LONG);
+        mSbGame = Snackbar.make (mSbParentView, mLastTurnResults + "\n" + msg,
+                                 Snackbar.LENGTH_LONG);
+
         mLastTurnResults = msg;
 
         // Allow and setup undo
-        mSbGame.setAction ("Undo", new View.OnClickListener ()
-        {
-            @Override
-            public void onClick (View v)
-            {
-                undoLastMove (position);
-            }
-        });
+        mSbGame.setAction ("Undo", v -> undoLastMove (position));
 
         // Show SnackBar
         mSbGame.show ();
     }
 
-    @NonNull
-    private String getCurrentPlayer ()
-    {
-        return mTurnX ? getString (R.string.x) : getString (R.string.o);
-    }
-
     private void undoLastMove (int position)
     {
-        if (!mPrefComputerOpponent) {
+        if (mCurrentGame.isCanUndo () &&
+                (!mPrefComputerOpponent || mPrefComputerStarts)) {
             mAdapter.setImage (position, R.drawable.ic_xo_light);
-            setCurrentPlayerToX (!mTurnX);
+            mCurrentGame.undoLastTurn ();
+            updateUIWithCurrentPlayer ();
         }
         else {
-            if (mCurrentPosition != mINVALID_ICON_VALUE_FLAG && mPriorPosition != mINVALID_ICON_VALUE_FLAG) {
-                mAdapter.setImage (mCurrentPosition, R.drawable.ic_xo_light);
-                mAdapter.setImage (mPriorPosition, R.drawable.ic_xo_light);
-            }
-            else if (mPriorPosition == mINVALID_ICON_VALUE_FLAG) {
-                mSbGame.setText (R.string.error_cannot_undo_this_move).setDuration (
-                        Snackbar.LENGTH_SHORT).show ();
-            }
+            mSbGame.setText (R.string.error_cannot_undo_this_move).setDuration (
+                    Snackbar.LENGTH_SHORT).show ();
         }
+
     }
+
 
     private void doPostPlayerTurn ()
     {
-        if (isGameOver ()) {
+        if (mCurrentGame.isGameOver ()) {
             doGameOverTasks ();
         }
         else {
-            // flip mTurnX between X and O; meaning, set the turn to be the other player's turn
-            setCurrentPlayerToX (!mTurnX);
+            updateUIWithCurrentPlayer ();
         }
     }
 
     private void doGameOverTasks ()
     {
-        mGameOver = true;
-        generateGameResults ();
+        generateGameResultsMessage ();
         tintWinningSpacesIfNotDraw ();
         showGameOverSB (false);
     }
 
-    private void generateGameResults ()
+    private void generateGameResultsMessage ()
     {
-        if (mLastWinner.equals (getString (R.string.no_winner))) {
-            mLastGameResultsMessage = getString (R.string.info_board_full);
-        }
-        else {
-            final int ROW_COL_LENGTH = (int) Math.sqrt (mAdapter.getItemCount ());
-            mLastGameResultsMessage = getWinningRowColumnOrDiagonalMessage (ROW_COL_LENGTH);
-        }
+        mLastGameResultsMessage = mCurrentGame.isWinner ()
+                                  ? getWinningRowColumnOrDiagonalMessage ()
+                                  : getString (R.string.info_board_full);
     }
 
     @NonNull
@@ -1035,8 +959,21 @@ public class MainActivity extends AppCompatActivity
 
     private void tintWinningSpacesIfNotDraw ()
     {
-        if (!mLastWinner.equals (getString (R.string.no_winner))) {
-            mAdapter.setAllImagesTint (mWinningSpaces, R.color.color_yes);
+        if (mCurrentGame.isWinner ()) {
+
+            boolean[][] winningSpaces = mCurrentGame.getWinningSpaces ();
+
+            int idx = 0;
+            for (boolean[] arrWinningSpace : winningSpaces) {
+                for (boolean isWinningSpace : arrWinningSpace) {
+                    if (isWinningSpace) {
+                        mAdapter.setImageTint (idx, R.color.color_yes);
+                    }
+
+                    idx++;
+                }
+
+            }
         }
     }
 
@@ -1044,15 +981,7 @@ public class MainActivity extends AppCompatActivity
     {
         StringBuilder sbText = generateGameOverMessage (gameAlreadyOver);
         mSbGame = Snackbar.make (mSbParentView, sbText, Snackbar.LENGTH_INDEFINITE);
-        mSbGame.setAction (R.string.action_newGame, new View.OnClickListener ()
-        {
-            @Override
-            public void onClick (View v)
-            {
-                startNewGameIncludingSRAnimation ();
-            }
-        })
-                .show ();
+        mSbGame.setAction (R.string.action_newGame, v -> startNewGame ()).show ();
     }
 
     private void showInvalidSpaceSB ()
@@ -1100,283 +1029,25 @@ public class MainActivity extends AppCompatActivity
         return position;
     }
 
-    private boolean isGameOver ()
-    {
-        // Assume game is over until proven otherwise
-        boolean gameOver = true;
-
-        if (isWinner ()) {
-            mLastWinner = mTurnX ? getString (R.string.x) : getString (R.string.o);
-        }
-        else if (isBoardFull ()) {
-            mLastWinner = getString (R.string.no_winner);
-        }
-        else {
-            gameOver = false;
-        }
-        return gameOver;
-    }
-
-    /**
-     * Method determines of the game has been won by either player
-     *
-     * @return true if there is a winner; false otherwise
-     */
-    private boolean isWinner ()
-    {
-        boolean winner;
-        int totalCells = mAdapter.getItemCount ();
-        int rowColLength = (int) Math.sqrt (totalCells); //3
-
-        winner = checkIfRowColumnOrDiagonalWinner (totalCells, rowColLength);
-
-        return winner;
-    }
-
-    /**
-     * Method determines if the board has already been filled up; no places left to click
-     *
-     * @return true if board is full
-     */
-    private boolean isBoardFull ()
-    {
-        int count = mAdapter.getItemCount (); //9
-        boolean emptySpaceFound = false;
-
-        for (int i = 0; i < count && !emptySpaceFound; i++) {
-            emptySpaceFound = isSpaceEmpty (i);
-        }
-        return !emptySpaceFound;
-    }
-
     /**
      * Generates the message to be outputted to the user regarding who won and by which direction
      * (e.g. Computer won; winning row number is: 1)
      *
-     * @param rowColLength How many rows and columns are in the grid
      * @return the message to be outputted to the user
      */
     @NonNull
-    private String getWinningRowColumnOrDiagonalMessage (int rowColLength)
+    private String getWinningRowColumnOrDiagonalMessage ()
     {
-        int rowColDivideValue = mWinType.equals (WinType.ROW) ? rowColLength : 1;
+        WinType winType = mCurrentGame.getWinType ();
+        WinTypeDiagonal winTypeDiagonal = mCurrentGame.getWinTypeDiagonal ();
 
-        return getCurrentPlayer () + getString (R.string.info_has_won) +
+        return mCurrentGame.getCurrentPlayer () + getString (R.string.info_has_won) +
                 "\nWinning " +
-                mWinType.toString ().toLowerCase () +
-                (mWinType.equals (WinType.DIAGONAL) ? ": " : " number: ") +
-                (mWinType.equals (WinType.DIAGONAL) ?
-                 mWinTypeDiagonal.toString ().toLowerCase ().replace ('_', ' ') :
-                 (mWinningSpaces[0] / rowColDivideValue) + 1) +
+                winType.toString ().toLowerCase () +
+                (winType.equals (WinType.DIAGONAL) ? ": " : " number: ") +
+                (winType.equals (WinType.DIAGONAL) ?
+                 winTypeDiagonal.toString ().toLowerCase ().replace ('_', ' ') :
+                 (mCurrentGame.getWinningRowOrColumn ()) + 1) +
                 '.';
     }
-
-    private boolean checkIfRowColumnOrDiagonalWinner (int totalCells, int rowColLength)
-    {
-        boolean rowWinner, colWinner = false, diagonalWinner = false;
-
-        // check row; if not winner, then check column; if still not winner, then check diagonals
-        rowWinner = isRowWinner (totalCells, rowColLength);
-        mWinType = rowWinner ? WinType.ROW : WinType.NONE;
-
-        if (!rowWinner) {
-            colWinner = isColWinner (totalCells, rowColLength);
-            mWinType = colWinner ? WinType.COLUMN : WinType.NONE;
-
-            if (!colWinner) {
-                diagonalWinner = isDiagonalWinner (totalCells, rowColLength);
-                mWinType = diagonalWinner ? WinType.DIAGONAL : WinType.NONE;
-            }
-        }
-
-        return rowWinner || colWinner || diagonalWinner;
-    }
-
-    private boolean isRowWinner (int totalCells, int rowColLength)
-    {
-        boolean rowWinner = false;
-        int currentSpaceImage, currentStartingSpace = 0;
-        // check row of 1-dimensional array
-        for (int i = 0, rowCurrentStartingSpaceImage; i < totalCells && !rowWinner;
-             i += rowColLength) {
-
-            // set current space and also assume the row will be a winner if starting space != empty
-            rowCurrentStartingSpaceImage = (int) mAdapter.getItemId (i);
-            rowWinner = rowCurrentStartingSpaceImage != mEMPTY_SPACE;
-
-            // If this is not an empty space, then assume rowWinner will be true
-            if (rowWinner) {
-                for (int j = i + 1; j < i + rowColLength; j++) {
-                    currentStartingSpace = j;
-                    currentSpaceImage = (int) mAdapter.getItemId (j);
-                    if (currentSpaceImage != rowCurrentStartingSpaceImage) {
-                        rowWinner = false;
-                    }
-                }
-                setWinningSpacesIfRowColWinner (rowColLength, rowWinner,
-                                                (currentStartingSpace - rowColLength) + 1, 1);
-            }
-        }
-        return rowWinner;
-    }
-
-
-    private boolean isColWinner (int totalCells, int rowColLength)
-    {
-        boolean colWinner = false;
-        int currentSpaceImage, currentStartingSpace = 0;
-        // check col of 1-dimensional array
-        for (int i = 0, colCurrentStartingSpaceImage; i < rowColLength && !colWinner; i++) {
-
-            // set current space and also assume the col will be a winner if not empty space
-            colCurrentStartingSpaceImage = (int) mAdapter.getItemId (i);
-            colWinner = colCurrentStartingSpaceImage != mEMPTY_SPACE;
-
-            // If this is not an empty space, then assume colWinner will be true
-            if (colWinner) {
-                for (int j = i + rowColLength; j < totalCells; j += rowColLength) {
-                    currentStartingSpace = j - rowColLength;
-                    currentSpaceImage = (int) mAdapter.getItemId (j);
-                    if (currentSpaceImage != colCurrentStartingSpaceImage) {
-                        colWinner = false;
-                    }
-                }
-                setWinningSpacesIfRowColWinner (rowColLength, colWinner,
-                                                currentStartingSpace - rowColLength, rowColLength);
-            }
-        }
-        return colWinner;
-    }
-
-    // Used in both isRowWinner and isColWinner
-    private void setWinningSpacesIfRowColWinner (int rowAndColLength, boolean rowOrColWinner,
-                                                 int rowOrColCurrentStartingSpace, int stepBy)
-    {
-        // after going through this row or column
-        if (rowOrColWinner) {
-            for (int k = 0; k < rowAndColLength; k++) {
-                mWinningSpaces[k] = rowOrColCurrentStartingSpace + (k * stepBy);
-            }
-        }
-    }
-
-    private boolean isDiagonalWinner (int totalCells, int rowColLength)
-    {
-        boolean diagonalWinner;
-        int diagonalStart;
-
-        // do the first diagonal check (Upper-Left to Lower-Right)
-        diagonalStart = 0;
-        diagonalWinner = isDiagonalWinnerULLR (totalCells, rowColLength, diagonalStart);
-
-        // if the first diagonal check (Upper-Left to Lower-Right) passed
-        if (diagonalWinner) {
-            setWinnerMemberDataULLR (rowColLength, diagonalStart);
-        }
-        else {   // do the second diagonal check (Lower-Left to Upper-Right) passes
-            diagonalStart = rowColLength - 1;
-            diagonalWinner = isDiagonalWinnerLLUR (totalCells, rowColLength, diagonalStart);
-
-            // if the second diagonal check passes
-            if (diagonalWinner) {
-                setWinnerMemberDataLLUR (rowColLength, diagonalStart);
-            }
-        }
-
-        return diagonalWinner;
-    }
-
-    private void setWinnerMemberDataLLUR (int rowColLength, int diagonalStart)
-    {
-        for (int i = rowColLength - 1; i >= 0; i--) {
-            mWinningSpaces[i] = diagonalStart - i + (rowColLength * i);
-        }
-        mWinTypeDiagonal = WinTypeDiagonal.LOWER_LEFT_TO_UPPER_RIGHT;
-    }
-
-    private void setWinnerMemberDataULLR (int rowColLength, int diagonalStart)
-    {
-        for (int i = 0; i < rowColLength; i++) {
-            mWinningSpaces[i] = diagonalStart + i + (i * rowColLength);
-        }
-        mWinTypeDiagonal = WinTypeDiagonal.UPPER_LEFT_TO_LOWER_RIGHT;
-
-    }
-
-    private boolean isDiagonalWinnerLLUR (int totalCells, int rowColLength, int diagonalStart)
-    {
-        int currentStartingSpace;
-        boolean diagonalWinner;
-        int currentSpace;
-        currentStartingSpace = (int) mAdapter.getItemId (diagonalStart);
-        diagonalWinner = currentStartingSpace != mEMPTY_SPACE;
-
-        if (diagonalWinner) {
-            for (int i = rowColLength - 1;
-                 i <= totalCells - rowColLength;
-                 i += rowColLength - 1) {
-                currentSpace = (int) mAdapter.getItemId (i);
-
-                if (currentSpace != currentStartingSpace) {
-                    diagonalWinner = false;
-                }
-            }
-        }
-        return diagonalWinner;
-    }
-
-    private boolean isDiagonalWinnerULLR (int totalCells, int rowColLength, int diagonalStart)
-    {
-        int currentStartingSpace;
-        boolean diagonalWinner;
-        int currentSpace;
-        currentStartingSpace = (int) mAdapter.getItemId (diagonalStart);
-
-        diagonalWinner = currentStartingSpace != mEMPTY_SPACE;
-
-        if (diagonalWinner) {
-            for (int i = 0; i < totalCells; i += rowColLength + 1) {
-                currentSpace = (int) mAdapter.getItemId (i);
-
-                if (currentSpace != currentStartingSpace) {
-                    diagonalWinner = false;
-                }
-            }
-        }
-        return diagonalWinner;
-    }
-
-
-    // ---------------------------------------------------------------------------------------------
-    // LG work-around to prevent crash when user hits menu button
-    // ---------------------------------------------------------------------------------------------
-
-    @Override
-    public boolean onKeyDown (int keyCode, KeyEvent event)
-    {
-        if ((keyCode == KeyEvent.KEYCODE_MENU) &&
-                (Build.VERSION.SDK_INT <= 16) &&
-                (Build.MANUFACTURER.compareTo ("LGE") == 0)) {
-            Log.i ("LG", "LG Legacy Device Detected");
-            return true;
-        }
-        else {
-            return super.onKeyDown (keyCode, event);
-        }
-    }
-
-    @Override
-    public boolean onKeyUp (int keyCode, KeyEvent event)
-    {
-        if ((keyCode == KeyEvent.KEYCODE_MENU) &&
-                (Build.VERSION.SDK_INT <= 16) &&
-                (Build.MANUFACTURER.compareTo ("LGE") == 0)) {
-            openOptionsMenu ();
-            return true;
-        }
-        else {
-            return super.onKeyUp (keyCode, event);
-        }
-    }
-
 }

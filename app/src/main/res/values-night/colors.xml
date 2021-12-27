@@ -6,4 +6,14 @@
 
     <color name="colorSplashBackground">@android:color/background_dark</color>
     <color name="colorBoardBackground">@color/colorPrimaryDark</color>
+
+    <color name="colorPrimaryTextColored">@color/colorPrimaryLight</color>
+    <color name="colorSecondaryTextColored">@color/colorPrimary</color>
+
+    <color name="colorBackgroundColored">@color/colorPrimaryDark</color>
+
+    <color name="colorDefaultBackground">@color/cardview_dark_background</color>
+
+    <color name="colorInnerCardBackground">@android:color/darker_gray</color>
+
 </resources>

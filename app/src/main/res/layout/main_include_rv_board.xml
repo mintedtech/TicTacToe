@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MaterialCardWithBorder"
+    android:layout_margin="@dimen/default_activity_margin"
     android:layout_width="0dp"
-    android:layout_height="wrap_content"
+    android:layout_height="0dp"
+    app:cardBackgroundColor="@color/colorBoardBackground"
+    app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/top_bar"
-    app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
-    app:cardBackgroundColor="@color/colorBoardBackground">
+    tools:showIn="@layout/content_main">
 
-    <include layout="@layout/main_include_rv_board_contents" />
-
-</androidx.cardview.widget.CardView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_board"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        tools:itemCount="9"
+        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:listitem="@layout/rv_card_image_item"
+        tools:spanCount="3"
+         />
+</com.google.android.material.card.MaterialCardView>

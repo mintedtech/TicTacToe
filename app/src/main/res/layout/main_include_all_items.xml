@@ -10,7 +10,4 @@
     <include layout="@layout/main_include_instruction_bar"/>
 
     <include layout="@layout/main_include_rv_board" />
-
-    <include layout="@layout/main_include_bottom_bar" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

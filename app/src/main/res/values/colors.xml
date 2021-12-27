@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="colorPrimary">#03A9F4</color>
-  <color name="colorPrimaryDark">#0288D1</color>
-  <color name="colorPrimaryLight">#B3E5FC</color>
-  <color name="colorAccent">#00BCD4</color>
-  <color name="colorPrimaryText">#212121</color>
-  <color name="colorSecondaryText">#727272</color>
+    <color name="colorPrimary">#2196f3</color>
+    <color name="colorPrimaryDark">#0069c0</color>
+    <color name="colorPrimaryLight">#6ec6ff</color>
+    <color name="colorPrimaryText">#000000</color>
 
-  <!-- Overridden in Night -->
-  <color name="colorSplashBackground">@android:color/background_light</color>
-  <color name="colorBoardBackground">@color/colorPrimaryLight</color>
-  <color name="color_yes">#00FF00</color>
-  <color name="color_no">#FFEEEE</color>
+    <color name="colorSecondary">#3f51b5</color>
+    <color name="colorSecondaryLight">#757de8</color>
+    <color name="colorSecondaryDark">#002984</color>
+    <color name="colorSecondaryText">#ffffff</color>
+
+    <!-- Overridden in Night -->
+    <color name="colorSplashBackground">@android:color/background_light</color>
+    <color name="colorBoardBackground">@color/colorPrimaryLight</color>
+
     <color name="color_light_red">#FFEEEE</color>
-  <color name="color_dark_green">#00C860</color>
+    <color name="color_dark_green">#00C860</color>
+
+    <color name="color_yes">@color/color_dark_green</color>
+    <color name="color_no">@color/color_light_red</color>
+
+    <!-- For colored text; default is black/dark-gray (Day) or white/light-gray (Night) -->
+    <color name="colorPrimaryTextColored">@color/colorPrimaryDark</color>
+    <color name="colorSecondaryTextColored">@color/colorPrimary</color>
+
+    <!-- Matching colored background -->
+    <color name="colorBackgroundColored">@color/colorPrimaryLight</color>
+
+    <!-- Used for Splash Screen background, and elsewhere as needed -->
+    <color name="colorDefaultBackground">@color/cardview_light_background</color>
+    <color name="colorInnerCardBackground">@color/colorDefaultBackground</color>
 </resources>

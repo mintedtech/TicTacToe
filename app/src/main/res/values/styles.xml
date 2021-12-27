@@ -1,39 +1,33 @@
 <resources>
-
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="android:alertDialogTheme">@style/AppCompatAlertDialogStyle</item>
-        <item name="alertDialogTheme">@style/AppCompatAlertDialogStyle</item>
-
-        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
-        <item name="android:textColorSecondary">@color/colorSecondaryText</item>
-
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorButtonNormal">@color/colorPrimaryLight</item>
-        <item name="colorControlActivated">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
-
-        <item name="actionBarTheme">@style/AppTheme.AppBarOverlay</item>
-        <item name="popupTheme">@style/AppTheme.PopupOverlay</item>
+    <style name="MaterialCardWithBorder" parent="Widget.MaterialComponents.CardView">
+        <item name="strokeWidth">@dimen/slim_margin</item>
+        <item name="strokeColor">@color/colorPrimary</item>
+        <item name="cardBackgroundColor">@color/colorDefaultBackground</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
+    <style name="TextViewStatistics">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="layout_constrainedWidth">true</item>
+        <item name="android:textAppearance">
+            @style/TextAppearance.MaterialComponents.Subtitle1</item>
     </style>
 
-    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.DayNight.Dialog.Alert">
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="TextViewStatistics.PrimaryTextColor">
+        <item name="android:textColor">@color/colorPrimaryTextColored</item>
     </style>
 
-    <style name="AppTheme.NoActionBar.SplashScreenTheme">
-        <item name="android:background">@drawable/splash_background</item>
+    <style name="TextViewStatistics.PrimaryTextColor.Bold">
+        <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextViewStatistics.SecondaryTextColor">
+        <item name="android:textColor">@color/colorSecondaryTextColored</item>
+    </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="TextViewStatistics.SecondaryTextColor.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
