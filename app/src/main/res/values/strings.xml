@@ -18,7 +18,7 @@
     <string name="info_first_game_of_session">This is the first game of the session.</string>
     <string name="info_game_already_over">The game has already ended.</string>
     <string name="info_game_over">Game Over!</string>
-    <string name="info_game_restored">Game State Restored via Auto-Save</string>
+    <string name="info_game_restored">Auto-Saved Game State Restored</string>
     <string name="info_has_won"> has won!</string>
 
     <!-- ActionBar Items -->

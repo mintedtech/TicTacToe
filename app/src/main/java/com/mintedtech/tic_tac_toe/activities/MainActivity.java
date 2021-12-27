@@ -895,8 +895,9 @@ public class MainActivity extends AppCompatActivity
 
         mLastTurnResults = msg;
 
-        // Allow and setup undo
-        mSbGame.setAction ("Undo", v -> undoLastMove (position));
+        // Allow and setup undo for 2-player
+        if (!mPrefComputerOpponent)
+            mSbGame.setAction ("Undo", v -> undoLastMove (position));
 
         // Show SnackBar
         mSbGame.show ();
@@ -904,8 +905,7 @@ public class MainActivity extends AppCompatActivity
 
     private void undoLastMove (int position)
     {
-        if (mCurrentGame.isCanUndo () &&
-                (!mPrefComputerOpponent || mPrefComputerStarts)) {
+        if (mCurrentGame.isCanUndo () && !mPrefComputerOpponent) {
             mAdapter.setImage (position, R.drawable.ic_xo_light);
             mCurrentGame.undoLastTurn ();
             updateUIWithCurrentPlayer ();
@@ -914,9 +914,7 @@ public class MainActivity extends AppCompatActivity
             mSbGame.setText (R.string.error_cannot_undo_this_move).setDuration (
                     Snackbar.LENGTH_SHORT).show ();
         }
-
     }
-
 
     private void doPostPlayerTurn ()
     {
