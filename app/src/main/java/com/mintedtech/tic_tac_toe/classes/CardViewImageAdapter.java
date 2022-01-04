@@ -1,5 +1,9 @@
 package com.mintedtech.tic_tac_toe.classes;
 
+import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,13 +101,14 @@ public class CardViewImageAdapter extends RecyclerView.Adapter<CardImageViewHold
                 .inflate (R.layout.rv_card_image_item, parent, false);
 
         // Create a new ViewHolder with that newly-inflated View
-        //adjustScaling (cardImageViewHolder, parent.getContext ());
+        CardImageViewHolder cardImageViewHolder = new CardImageViewHolder (itemLayoutView);
+        adjustScaling (cardImageViewHolder, parent.getContext ());
 
         // return the created and then modified ViewHolder
-        return new CardImageViewHolder (itemLayoutView);
+        return cardImageViewHolder;
     }
 
-   /* private void adjustScaling (CardImageViewHolder cardImageViewHolder, Context context)
+    private void adjustScaling (CardImageViewHolder cardImageViewHolder, Context context)
     {
         // Scale that ImageView's height to match a portion of the actual screen size...
 
@@ -149,7 +154,7 @@ public class CardViewImageAdapter extends RecyclerView.Adapter<CardImageViewHold
         // create the values for LayoutParameter
         HEIGHT_PARAMETER = (int) (screenHeight / scaleVertical);
         return HEIGHT_PARAMETER;
-    }*/
+    }
 
     @Override public void onBindViewHolder (CardImageViewHolder holder, int position)
     {

@@ -148,20 +148,20 @@ public class MainActivity extends AppCompatActivity
         // Create a new LayoutManager object to be used in the RecyclerView
         int rvColumnCount = (int) Math.sqrt (mAdapter.getItemCount ());
         RecyclerView.LayoutManager layoutManager =
-                new GridLayoutManager (this, rvColumnCount)
+                new GridLayoutManager (this, rvColumnCount);/*
                 {
                     @Override public boolean checkLayoutParams (RecyclerView.LayoutParams lp)
                     {
                         // Desired height seems to be slightly less than 1/3rd, due to padding/etc.?
                         // But the precise number is slightly different for portrait and landscape
-                        double offset = getWidth () > getHeight () ? .13 : .12;
+                        double offset = getWidth () > getHeight () ? .13 : .18;
 
                         // Size the height of each to have the entire RV fill the screen
                         // Since this is a symmetrical grid, column count == row count
                         lp.height = (int) (getHeight () / (rvColumnCount + offset));
                         return true; // instead of super.checkLayoutParams (lp);
                     }
-                };
+                };*/
 
         // apply the Layout Manager object just created to the RecyclerView
         rvBoard.setLayoutManager (layoutManager);
