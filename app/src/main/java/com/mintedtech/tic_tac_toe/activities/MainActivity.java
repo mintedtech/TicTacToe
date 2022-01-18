@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.mintedtech.tic_tac_toe.R;
 import com.mintedtech.tic_tac_toe.classes.CardViewImageAdapter;
+import com.mintedtech.tic_tac_toe.classes.Utils;
 import com.mintedtech.tic_tac_toe.enums.PlayerTurn;
 import com.mintedtech.tic_tac_toe.enums.WinType;
 import com.mintedtech.tic_tac_toe.enums.WinTypeDiagonal;
@@ -90,8 +91,7 @@ public class MainActivity extends AppCompatActivity
         initializeSwipeRefreshLayout ();
         initializeSnackBar ();
         findViewById (R.id.fab).setOnClickListener (
-                v -> Snackbar.make (mSbParentView, R.string.information,
-                                    Snackbar.LENGTH_LONG).show ());
+                v -> Utils.showInfoDialog(this, R.string.information, R.string.game_rules));
     }
 
     /**
@@ -663,6 +663,11 @@ public class MainActivity extends AppCompatActivity
         return super.onCreateOptionsMenu (menu);
     }
 
+    private int getAdapterPositionFromRowCol(int currentRow, int currentColumn)
+    {
+        return currentRow * (int)Math.sqrt(mAdapter.getItemCount()) + currentColumn;
+    }
+
     @Override
     public boolean onOptionsItemSelected (MenuItem item)
     {
@@ -674,6 +679,12 @@ public class MainActivity extends AppCompatActivity
         if (itemId == R.id.action_newGame) {
             startNewGame ();
             return true;
+        }
+        else if (itemId == R.id.action_undo) {
+
+            int position = getAdapterPositionFromRowCol
+                    (mCurrentGame.getCurrentRow(),mCurrentGame.getCurrentColumn());
+            undoLastMove(position);
         }
         else if (itemId == R.id.action_autoSave) {
             toggleItemCheck (item);
@@ -897,7 +908,7 @@ public class MainActivity extends AppCompatActivity
 
         // Allow and setup undo for 2-player
         if (!mPrefComputerOpponent)
-            mSbGame.setAction ("Undo", v -> undoLastMove (position));
+            mSbGame.setAction (R.string.undo, v -> undoLastMove (position));
 
         // Show SnackBar
         mSbGame.show ();
@@ -905,12 +916,15 @@ public class MainActivity extends AppCompatActivity
 
     private void undoLastMove (int position)
     {
+        dismissSnackBarIfShown();
         if (mCurrentGame.isCanUndo () && !mPrefComputerOpponent) {
             mAdapter.setImage (position, R.drawable.ic_xo_light);
             mCurrentGame.undoLastTurn ();
+            mAdapter.clearAllImageTints();
             updateUIWithCurrentPlayer ();
         }
         else {
+            mSbGame.setAction(null, null);
             mSbGame.setText (R.string.error_cannot_undo_this_move).setDuration (
                     Snackbar.LENGTH_SHORT).show ();
         }

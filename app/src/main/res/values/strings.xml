@@ -1,17 +1,28 @@
 <resources>
     <string name="app_name">Tic Tac Toe</string>
+    <string name="title_activity_statistics">Statistics</string>
+    <string name="fab">FAB</string>
     <string name="information">Information</string>
 
     <!-- Board and winner Choices -->
     <string name="x">X</string>
     <string name="o">O</string>
     <string name="no_winner">No Winner</string>
+    <string name="undo">Undo</string>
 
     <!-- Error Messages -->
     <string name="error_space_already_taken">That space is already taken.</string>
-    <string name="error_cannot_undo_this_move">Cannot undo this move.</string>
+    <string name="error_cannot_undo_this_move">Cannot undo now.</string>
 
     <!-- Info Messages -->
+    <string name="game_rules">"
+        Tic Tac Toe is simple to play!\n
+        Players alternate clicking on an available space until the game is over.\n
+        The winner is the first player to get three in a row, column or diagonal.\n
+        Otherwise, if no player has won and no available spaces remain, then that's a tie game.\n
+        You can play against the computer or a fellow human."</string>
+    <string name="banner_text">Please tap on a square</string>
+    <string name="info_first_turn_of_the_game">First turn of the game.</string>
     <string name="info_board_full">Board full; neither player has won.</string>
     <string name="info_computer_goes_next">Computer will wait for its next available turn.</string>
     <string name="info_defaultValue_lastTurnResults">Initial Turn:</string>
@@ -30,7 +41,7 @@
 
     <!-- About Dialog Items -->>
     <string name="aboutDialogTitle">About TicTacToeTwo</string>
-    <string name="aboutDialog_banner"><![CDATA[© 2015–2022 SamuelA.\nEmail: mintedtech@gmail.com\n\nThanks to Touro College MCO 451/521 students for their in-class thoughts and ideas.]]></string>
+    <string name="aboutDialog_banner"><![CDATA[© 2015–2022 Samuel A.\nEmail: mintedtech@gmail.com\n\nThanks to Touro College\'s MCON 451/521 students for their in-class thoughts and ideas.]]></string>
     <string name="OK">OK</string>
 
     <!-- Status Bar Items -->
@@ -60,8 +71,4 @@
     <string name="title_computer_opponent">Computer Opponent</string>
     <string name="key_computer_starts">COMPUTER_STARTS</string>
     <string name="title_computer_starts">Computer Starts</string>
-    <string name="banner_text">Please tap on a square</string>
-    <string name="info_first_turn_of_the_game">First turn of the game.</string>
-    <string name="fab">FAB</string>
-    <string name="title_activity_statistics">Statistics</string>
 </resources>

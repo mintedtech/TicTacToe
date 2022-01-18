@@ -21,9 +21,10 @@ public class TicTacToe
     private final PlayerTurn mFirstPlayer = PlayerTurn.values ()[1];       // 0 is NONE
     private final PlayerTurn mLastPlayer = PlayerTurn.values ()[PlayerTurn.values ().length - 1];
 
+    private boolean mGameOver; // convenience variable to prevent multiple expensive board checks
+
     // Undo
     private int mCurrentColumn, mPriorColumn, mCurrentRow,  mPriorRow;
-    private PlayerTurn mPriorPlayer;
     private boolean mCanUndo;
 
     // Stats
@@ -47,6 +48,7 @@ public class TicTacToe
 
     public void startGame ()
     {
+        mGameOver = false;
         mCanUndo = false;
         setupBoardForNewGame ();
         setWinningSpacesArrayToAllFalse ();
@@ -60,6 +62,7 @@ public class TicTacToe
 
     private void endCurrentGame ()
     {
+        mGameOver=true;
         if (isWinner ())
             mWinCount[mCurrentPlayer.ordinal ()]++;
 
@@ -139,7 +142,6 @@ public class TicTacToe
 
         mPriorColumn = mCurrentColumn;
         mPriorRow = mCurrentRow;
-        mPriorPlayer = getPriorPlayer ();
 
         mCurrentRow = row;
         mCurrentColumn = col;
@@ -147,7 +149,7 @@ public class TicTacToe
 
     private void doNextPlayerOrEndGame ()
     {
-        if (isGameOver ()) {
+        if (isBoardFull () || isWinner()) {
             endCurrentGame ();
         }
         else {
@@ -236,8 +238,13 @@ public class TicTacToe
 
             mCurrentRow = mPriorRow;
             mCurrentColumn = mPriorColumn;
-            mCurrentPlayer = getPriorPlayer ();
 
+            if (mGameOver)
+                setWinningSpacesArrayToAllFalse ();
+            else
+                mCurrentPlayer = getPriorPlayer ();
+
+            mGameOver = false;
             mCanUndo = false;
         }
     }
@@ -254,7 +261,7 @@ public class TicTacToe
 
     public boolean isGameOver ()
     {
-        return (isBoardFull () || isWinner ());
+        return mGameOver; //(isBoardFull () || isWinner ());
     }
 
     public boolean isBoardFull ()

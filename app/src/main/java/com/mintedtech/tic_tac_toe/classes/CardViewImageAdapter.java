@@ -87,10 +87,17 @@ public class CardViewImageAdapter extends RecyclerView.Adapter<CardImageViewHold
         notifyItemChanged (position);
     }
 
-    @SuppressWarnings ("unused") public void clearImageTint (int position)
+    public void clearImageTint (int position)
     {
         mImageTints[position] = mINVALID_FLAG;
         notifyItemChanged (position);
+    }
+
+    public void clearAllImageTints ()
+    {
+        for (int i = 0; i < mImageTints.length; i++) {
+            clearImageTint(i);
+        }
     }
 
     @NonNull @Override
