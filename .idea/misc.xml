@@ -3,13 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/samue/AndroidStudioProjects/_SA/TicTacToe/app/src/main/res/layout-land/main_include_all_items.xml" value="0.1" />
-        <entry key="..\:/Users/samue/AndroidStudioProjects/_SA/TicTacToe/app/src/main/res/layout/content_main.xml" value="0.1" />
-        <entry key="..\:/Users/samue/AndroidStudioProjects/_SA/TicTacToe/app/src/main/res/layout/main_include_all_items.xml" value="0.1" />
-        <entry key="..\:/Users/samue/AndroidStudioProjects/_SA/TicTacToe/app/src/main/res/layout/main_include_bottom_bar.xml" value="0.11980749746707194" />
-        <entry key="..\:/Users/samue/AndroidStudioProjects/_SA/TicTacToe/app/src/main/res/layout/main_include_rv_board.xml" value="0.1" />
-        <entry key="..\:/Users/samue/AndroidStudioProjects/_SA/TicTacToe/app/src/main/res/layout/rv_card_image_item.xml" value="0.33695652173913043" />
-        <entry key="..\:/Users/samue/AndroidStudioProjects/_SA/TicTacToe/app/src/main/res/menu/menu_main.xml" value="0.3875" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/drawable-nodpi/curved_bordered_background.xml" value="0.2574074074074074" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/drawable-nodpi/ic_baseline_undo_24.xml" value="0.3148148148148148" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/drawable-nodpi/ic_baseline_undo_32.xml" value="0.340625" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/drawable-nodpi/ic_baseline_view_list_32.xml" value="0.340625" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/drawable-nodpi/ic_outline_cancel_24.xml" value="0.3148148148148148" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/drawable-nodpi/ic_outline_list_24.xml" value="0.3148148148148148" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/drawable-nodpi/splash_background.xml" value="0.40370370370370373" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/drawable-v23/splash_background.xml" value="0.14633204633204633" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/drawable/splash_background.xml" value="0.40370370370370373" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/layout-land/main_include_all_items.xml" value="0.1" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/layout/activity_main.xml" value="0.11743450767841011" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/layout/content_main.xml" value="0.11743450767841011" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/layout/content_statistics.xml" value="0.26772055073941864" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/layout/main_include_bottom_bar.xml" value="0.1" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/layout/main_include_bottom_bar_status_text.xml" value="0.24074074074074073" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/layout/main_include_instruction_bar.xml" value="0.11743450767841011" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/layout/main_include_rv_board.xml" value="0.11743450767841011" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/layout/multi_include_card_image_stones.xml" value="0.24305555555555555" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/layout/multi_include_card_o.xml" value="0.11743450767841011" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/layout/multi_include_card_x.xml" value="0.24074074074074073" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/layout/rv_card_image_item.xml" value="0.16802536231884058" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/layout/statistics_include_card_stats_card_scroll.xml" value="0.24305555555555555" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/layout/statistics_include_card_stats_data.xml" value="0.38935185185185184" />
+        <entry key="..\:/Users/SA/AndroidStudioProjects/__Production/TicTacToe/app/src/main/res/menu/menu_main.xml" value="0.3786008230452675" />
       </map>
     </option>
   </component>

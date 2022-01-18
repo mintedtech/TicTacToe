@@ -17,7 +17,8 @@
         android:theme="@style/Theme.TicTacToe"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.MainActivity"
+            android:theme="@style/Theme.TicTacToe.NoActionBar"/>
 
         <activity
             android:name=".activities.StatisticsActivity"

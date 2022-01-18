@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2196f3</color>
-    <color name="colorPrimaryDark">#0069c0</color>
-    <color name="colorPrimaryLight">#6ec6ff</color>
-    <color name="colorPrimaryText">#000000</color>
+    <!-- The two sets of colors below are NOT overridden in res/values-night... -->
+    <color name="primaryColor">#1e88e5</color>
+    <color name="primaryLightColor">#6ab7ff</color>
+    <color name="primaryDarkColor">#005cb2</color>
+    <color name="primaryOnColor">#000000</color>
+    <!-- on... colors are used for both text and icons -->
 
-    <color name="colorSecondary">#3f51b5</color>
-    <color name="colorSecondaryLight">#757de8</color>
-    <color name="colorSecondaryDark">#002984</color>
-    <color name="colorSecondaryText">#ffffff</color>
+    <!-- secondary set of colors -->
+    <color name="secondaryColor">#5c6bc0</color>
+    <color name="secondaryLightColor">#8e99f3</color>
+    <color name="secondaryDarkColor">#26418f</color>
+    <color name="secondaryOnColor">#FFFFFF</color>
 
-    <!-- Overridden in Night -->
-    <color name="colorSplashBackground">@android:color/background_light</color>
-    <color name="colorBoardBackground">@color/colorPrimaryLight</color>
+    <color name="accentColor">@color/secondaryColor</color>
 
+    <!-- The following four colors are overridden in res/values-night/... -->
+
+    <!-- For colored text; default is black/dark-gray (Day) or white/light-gray (Night) -->
+    <color name="primaryTextColoredColor">@color/primaryDarkColor</color>
+    <color name="secondaryTextColoredColor">@color/primaryColor</color>
+
+    <!-- Matching colored background -->
+    <color name="backgroundColoredColor">@color/primaryLightColor</color>
+
+    <!-- Almost white background (i.e. secondary; to complement default white background) -->
+    <color name="backgroundDefaultColor">@color/cardview_light_background</color>
     <color name="color_light_red">#FFEEEE</color>
     <color name="color_dark_green">#00C860</color>
 
     <color name="color_yes">@color/color_dark_green</color>
     <color name="color_no">@color/color_light_red</color>
-
-    <!-- For colored text; default is black/dark-gray (Day) or white/light-gray (Night) -->
-    <color name="colorPrimaryTextColored">@color/colorPrimaryDark</color>
-    <color name="colorSecondaryTextColored">@color/colorPrimary</color>
-
-    <!-- Matching colored background -->
-    <color name="colorBackgroundColored">@color/colorPrimaryLight</color>
-
-    <!-- Used for Splash Screen background, and elsewhere as needed -->
-    <color name="colorDefaultBackground">@color/cardview_light_background</color>
-    <color name="colorInnerCardBackground">@color/colorDefaultBackground</color>
 </resources>

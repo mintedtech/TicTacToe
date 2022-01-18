@@ -6,7 +6,7 @@
     android:layout_height="0dp"
     android:layout_margin="@dimen/slim_margin"
     android:alpha=".9"
-    app:cardBackgroundColor="@color/colorDefaultBackground"
+    app:cardBackgroundColor="@color/backgroundDefaultColor"
     app:layout_constrainedHeight="true"
     app:layout_constraintBottom_toBottomOf="@+id/card_image_view_ttt"
     app:layout_constraintLeft_toLeftOf="@+id/card_image_view_ttt"

@@ -4,16 +4,14 @@
     <color name="color_yes">#245A24</color>
     <color name="color_no">#5A2424</color>
 
-    <color name="colorSplashBackground">@android:color/background_dark</color>
-    <color name="colorBoardBackground">@color/colorPrimaryDark</color>
+    <color name="primaryTextColoredColor">@color/primaryLightColor</color>
+    <color name="secondaryTextColoredColor">@color/primaryColor</color>
 
-    <color name="colorPrimaryTextColored">@color/colorPrimaryLight</color>
-    <color name="colorSecondaryTextColored">@color/colorPrimary</color>
+    <!-- Matching colored background - primaryDark in Night Mode -->
+    <color name="backgroundColoredColor">@color/primaryDarkColor</color>
 
-    <color name="colorBackgroundColored">@color/colorPrimaryDark</color>
+    <!-- Almost white background (i.e. secondary; to complement default white background) -->
+    <color name="backgroundDefaultColor">@color/cardview_dark_background</color>
 
-    <color name="colorDefaultBackground">@color/cardview_dark_background</color>
-
-    <color name="colorInnerCardBackground">@android:color/darker_gray</color>
 
 </resources>

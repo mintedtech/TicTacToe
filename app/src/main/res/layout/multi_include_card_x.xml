@@ -4,26 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_x"
+    style="@style/MaterialCardWithBorder"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/outside_margin"
-    app:cardBackgroundColor="@color/colorBoardBackground"
     tools:showIn="@layout/main_include_all_items">
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/outside_half_margin"
-        app:cardElevation="0dp"
-        tools:showIn="@layout/main_include_all_items">
+    <ImageView
+        android:id="@+id/imageX"
+        style="@style/Image_x_o"
+        android:contentDescription="@string/current_turn_X"
+        android:src="@drawable/ic_x"
+        app:tint="@color/color_dark_green" />
 
-        <ImageView
-            android:id="@+id/imageX"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/current_turn_X"
-            android:src="@drawable/ic_x"
-            app:tint="@color/color_dark_green" />
-
-    </com.google.android.material.card.MaterialCardView>
 </com.google.android.material.card.MaterialCardView>

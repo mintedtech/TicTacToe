@@ -27,6 +27,7 @@ import java.util.Random;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,12 +79,18 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_main);
+        setupToolbar ();
         setupViews ();
         setupRV ();
         initializePreferenceKeys ();
         initializeViewAndModel (savedInstanceState);
     }
 
+    private void setupToolbar ()
+    {
+        Toolbar toolbar = findViewById (R.id.toolbar);
+        setSupportActionBar (toolbar);
+    }
 
     private void setupViews ()
     {
@@ -91,7 +98,10 @@ public class MainActivity extends AppCompatActivity
         initializeSwipeRefreshLayout ();
         initializeSnackBar ();
         findViewById (R.id.fab).setOnClickListener (
-                v -> Utils.showInfoDialog(this, R.string.information, R.string.game_rules));
+                v -> {
+                    dismissSnackBarIfShown ();
+                    Utils.showInfoDialog (this, R.string.information, R.string.game_rules);
+                });
     }
 
     /**

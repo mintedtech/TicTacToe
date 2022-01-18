@@ -6,25 +6,26 @@
 
     <item
         android:id="@+id/action_newGame"
-        android:icon="@drawable/ic_launch_white_24dp"
+        android:icon="@android:drawable/ic_media_play"
         android:title="@string/action_newGame"
         app:showAsAction="ifRoom|withText" />
 
     <item
         android:id="@+id/action_undo"
-        android:icon="@android:drawable/ic_menu_revert"
+        android:icon="@drawable/ic_baseline_undo_32"
         android:title="@string/undo"
         app:showAsAction="ifRoom|withText"
         />
 
     <item
         android:id="@+id/action_statistics"
-        android:icon="@drawable/ic_outline_list_24"
+        android:icon="@drawable/ic_baseline_view_list_32"
         android:title="@string/view_statistics"
         app:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/action_reset_stats"
-        android:icon="@drawable/ic_outline_cancel_24"
+        android:icon="@android:drawable/ic_delete"
+        app:iconTint="@android:color/white"
         android:title="@string/reset_statistics"
         app:showAsAction="ifRoom|withText" />
 
@@ -50,7 +51,6 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_about"
-        android:icon="@drawable/ic_info_white_24dp"
         android:title="@string/about"
         app:showAsAction="never"
         />

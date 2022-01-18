@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="Image_x_o">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_margin">@dimen/default_activity_margin</item>
+    </style>
+
     <style name="MaterialCardWithBorder" parent="Widget.MaterialComponents.CardView">
         <item name="strokeWidth">@dimen/slim_margin</item>
-        <item name="strokeColor">@color/colorPrimary</item>
-        <item name="cardBackgroundColor">@color/colorDefaultBackground</item>
+        <item name="strokeColor">@color/backgroundColoredColor</item>
+        <item name="cardBackgroundColor">@color/backgroundDefaultColor</item>
     </style>
 
     <style name="TextViewStatistics">
@@ -12,11 +19,12 @@
         <item name="android:gravity">center</item>
         <item name="layout_constrainedWidth">true</item>
         <item name="android:textAppearance">
-            @style/TextAppearance.MaterialComponents.Subtitle1</item>
+            @style/TextAppearance.MaterialComponents.Subtitle1
+        </item>
     </style>
 
     <style name="TextViewStatistics.PrimaryTextColor">
-        <item name="android:textColor">@color/colorPrimaryTextColored</item>
+        <item name="android:textColor">@color/primaryTextColoredColor</item>
     </style>
 
     <style name="TextViewStatistics.PrimaryTextColor.Bold">
@@ -24,7 +32,7 @@
     </style>
 
     <style name="TextViewStatistics.SecondaryTextColor">
-        <item name="android:textColor">@color/colorSecondaryTextColored</item>
+        <item name="android:textColor">@color/secondaryTextColoredColor</item>
     </style>
 
     <style name="TextViewStatistics.SecondaryTextColor.Bold">
