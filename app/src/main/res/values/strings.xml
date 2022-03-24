@@ -40,7 +40,7 @@
     <string name="about">About</string>
 
     <!-- About Dialog Items -->>
-    <string name="aboutDialogTitle">About TicTacToeTwo</string>
+    <string name="aboutDialogTitle">About Tic Tac Toe</string>
     <string name="aboutDialog_banner"><![CDATA[© 2015–2022 Samuel A.\nEmail: mintedtech@gmail.com\n\nThanks to Touro College\'s MCON 451/521 students for their in-class thoughts and ideas.]]></string>
     <string name="OK">OK</string>
 
