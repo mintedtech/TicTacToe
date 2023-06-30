@@ -41,12 +41,12 @@
 
     <!-- About Dialog Items -->>
     <string name="aboutDialogTitle">About Tic Tac Toe</string>
-    <string name="aboutDialog_banner"><![CDATA[© 2015–2022 Samuel A.\nEmail: mintedtech@gmail.com\n\nThanks to Touro College\'s MCON 451/521 students for their in-class thoughts and ideas.]]></string>
+    <string name="aboutDialog_banner"><![CDATA[© 2015–2023 Samuel A.\nEmail: mintedtech@gmail.com\n\nThanks to Touro University\'s MCON 451/521 students for their in-class thoughts and ideas.]]></string>
     <string name="OK">OK</string>
 
     <!-- Status Bar Items -->
     <string name="status_bar_text">Current player: X</string>
-    <string name="current_turn">"Current Turn: "</string>
+    <string name="current_turn">"Current Player: "</string>
     <string name="chose">" chose: "</string>
     <string name="row_colon">"Row "</string>
     <string name="column_colon">"Column "</string>

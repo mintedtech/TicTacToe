@@ -4,13 +4,12 @@
     <style name="Image_x_o">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_margin">@dimen/default_activity_margin</item>
+        <item name="android:layout_margin">@dimen/default_margin</item>
     </style>
 
-    <style name="MaterialCardWithBorder" parent="Widget.MaterialComponents.CardView">
+    <style name="MaterialCardWithBorder" parent="Widget.Material3.CardView.Outlined">
         <item name="strokeWidth">@dimen/slim_margin</item>
         <item name="strokeColor">@color/backgroundColoredColor</item>
-        <item name="cardBackgroundColor">@color/backgroundDefaultColor</item>
     </style>
 
     <style name="TextViewStatistics">

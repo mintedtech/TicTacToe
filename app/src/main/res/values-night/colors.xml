@@ -4,11 +4,11 @@
     <color name="color_yes">#245A24</color>
     <color name="color_no">#5A2424</color>
 
-    <color name="primaryTextColoredColor">@color/primaryLightColor</color>
-    <color name="secondaryTextColoredColor">@color/primaryColor</color>
+    <color name="primaryTextColoredColor">@color/md_theme_dark_onBackground</color>
+    <color name="secondaryTextColoredColor">@color/md_theme_light_inversePrimary</color>
 
     <!-- Matching colored background - primaryDark in Night Mode -->
-    <color name="backgroundColoredColor">@color/primaryDarkColor</color>
+    <color name="backgroundColoredColor">@color/md_theme_dark_primaryContainer</color>
 
     <!-- Almost white background (i.e. secondary; to complement default white background) -->
     <color name="backgroundDefaultColor">@color/cardview_dark_background</color>

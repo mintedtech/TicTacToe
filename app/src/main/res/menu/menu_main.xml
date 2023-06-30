@@ -12,14 +12,14 @@
 
     <item
         android:id="@+id/action_undo"
-        android:icon="@drawable/ic_baseline_undo_32"
+        android:icon="@android:drawable/ic_menu_revert"
         android:title="@string/undo"
         app:showAsAction="ifRoom|withText"
         />
 
     <item
         android:id="@+id/action_statistics"
-        android:icon="@drawable/ic_baseline_view_list_32"
+        android:icon="@android:drawable/ic_menu_recent_history"
         android:title="@string/view_statistics"
         app:showAsAction="ifRoom|withText"/>
     <item

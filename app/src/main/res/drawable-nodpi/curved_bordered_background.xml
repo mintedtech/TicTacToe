@@ -4,7 +4,7 @@
     <solid android:color="@color/backgroundColoredColor" />
 
     <stroke android:width="@dimen/slim_margin"
-        android:color="@color/primaryColor"
+        android:color="@color/seed"
         />
 
     <corners android:bottomRightRadius="@dimen/slim_margin"

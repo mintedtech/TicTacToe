@@ -8,12 +8,11 @@
     android:padding="@dimen/outside_margin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/primaryDarkColor"
     android:gravity="center"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    tools:ignore="Overdraw"
+    app:layout_constraintBottom_toTopOf="@+id/rv_board"
     tools:showIn="@layout/content_main">
 
     <TextView
@@ -21,7 +20,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/banner_text"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:textColor="@android:color/primary_text_dark"
+        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+        android:textColor="?attr/colorPrimary"
         android:textStyle="bold" />
 </com.google.android.material.appbar.AppBarLayout>

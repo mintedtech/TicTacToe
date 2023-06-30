@@ -6,15 +6,12 @@
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_bar"
-        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+        style="@style/Widget.Material3.BottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:layout_gravity="bottom"
         app:contentInsetEnd="0dp"
         app:contentInsetStart="0dp"
-        app:fabCradleVerticalOffset="@dimen/fab_cradle_margin"
-        app:fabAlignmentMode="center"
-        app:fabAnimationMode="slide"
         tools:ignore="BottomAppBar"
         tools:showIn="@layout/activity_main">
 
@@ -26,9 +23,9 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fab_margin"
         android:layout_gravity="bottom|center"
         android:contentDescription="@string/fab"
-        app:layout_anchor="@id/bottom_bar"
         app:layout_anchorGravity="center"
         app:srcCompat="@android:drawable/ic_dialog_info" />
 

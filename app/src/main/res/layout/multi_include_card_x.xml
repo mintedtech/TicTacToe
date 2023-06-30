@@ -8,6 +8,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/outside_margin"
+    android:padding="@dimen/double_margin"
     tools:showIn="@layout/main_include_all_items">
 
     <ImageView

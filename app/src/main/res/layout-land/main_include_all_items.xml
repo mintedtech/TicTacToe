@@ -7,7 +7,7 @@
         layout="@layout/multi_include_card_x"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/default_activity_margin"
+        android:layout_margin="@dimen/default_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -15,7 +15,7 @@
     <include
         layout="@layout/main_include_rv_board"
         style="@style/MaterialCardWithBorder"
-        android:layout_margin="@dimen/default_activity_margin"
+        android:layout_margin="@dimen/default_margin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,7 +27,7 @@
         layout="@layout/multi_include_card_o"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/default_activity_margin"
+        android:layout_margin="@dimen/default_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
