@@ -26,6 +26,6 @@ public class CardImageViewHolder extends RecyclerView.ViewHolder implements View
     @Override
     public void onClick (View v)
     {
-        CardViewImageAdapter.sOnItemClickListener.onItemClick (getBindingAdapterPosition (), v);
+        CardViewImageAdapter.sOnItemClickListener.onItemClick (getAdapterPosition (), v);
     }
 }
