@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/Theme.Material3.DayNight"
+    style="@style/Widget.Material3.CardView.Filled"
     app:strokeColor="?attr/colorOutlineVariant"
     app:strokeWidth="@dimen/outside_half_margin"
     app:cardCornerRadius="@dimen/double_margin"

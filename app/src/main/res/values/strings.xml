@@ -41,7 +41,7 @@
 
     <!-- About Dialog Items -->>
     <string name="aboutDialogTitle">About Tic Tac Toe</string>
-    <string name="aboutDialog_banner"><![CDATA[© 2015–2023 Samuel A.\nEmail: mintedtech@gmail.com\n\nThanks to Touro University\'s MCON 451/521 students for their in-class thoughts and ideas.]]></string>
+    <string name="aboutDialog_banner"><![CDATA[© 2015–2024 Samuel A.\nEmail: mintedtech@gmail.com\n\nThanks to Touro University\'s MCON 451/521 students for their in-class thoughts and ideas.]]></string>
     <string name="OK">OK</string>
 
     <!-- Status Bar Items -->
@@ -58,7 +58,7 @@
 
     <!-- Strings used for Statistics Activity -->
     <string name="games_played"><![CDATA[Games played: ]]></string>
-    <string name="player_number">Player\nNumber</string>
+    <string name="player_letter">Player\nLetter</string>
     <string name="games_won">Games\nWon</string>
     <string name="percent_won">Percent\nWon</string>
     <string name="view_statistics">View Statistics</string>

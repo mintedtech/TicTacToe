@@ -32,7 +32,7 @@
         style="@style/TextViewStatistics.SecondaryTextColor.Bold"
         android:layout_marginStart="@dimen/default_margin"
         android:layout_marginEnd="@dimen/default_margin"
-        android:text="@string/player_number"
+        android:text="@string/player_letter"
         app:layout_constraintBottom_toBottomOf="@+id/tv_label_header_wins"
         app:layout_constraintEnd_toStartOf="@+id/tv_label_header_wins"
         app:layout_constraintStart_toStartOf="parent"

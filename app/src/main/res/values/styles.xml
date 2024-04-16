@@ -9,7 +9,7 @@
 
     <style name="MaterialCardWithBorder" parent="Widget.Material3.CardView.Outlined">
         <item name="strokeWidth">@dimen/slim_margin</item>
-        <item name="strokeColor">@color/backgroundColoredColor</item>
+        <item name="strokeColor">?attr/colorPrimaryContainer</item>
     </style>
 
     <style name="TextViewStatistics">
@@ -23,7 +23,7 @@
     </style>
 
     <style name="TextViewStatistics.PrimaryTextColor">
-        <item name="android:textColor">@color/primaryTextColoredColor</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 
     <style name="TextViewStatistics.PrimaryTextColor.Bold">
@@ -31,7 +31,7 @@
     </style>
 
     <style name="TextViewStatistics.SecondaryTextColor">
-        <item name="android:textColor">@color/secondaryTextColoredColor</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
     </style>
 
     <style name="TextViewStatistics.SecondaryTextColor.Bold">

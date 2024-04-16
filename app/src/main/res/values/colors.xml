@@ -61,19 +61,13 @@
     <color name="md_theme_dark_surfaceTint">#A3C9FF</color>
     <color name="md_theme_dark_outlineVariant">#43474E</color>
     <color name="md_theme_dark_scrim">#000000</color>
-    <!-- The following four colors are overridden in res/values-night/... -->
 
-    <!-- For colored text; default is black/dark-gray (Day) or white/light-gray (Night) -->
-    <color name="primaryTextColoredColor">@color/md_theme_light_onBackground</color>
-    <color name="secondaryTextColoredColor">@color/md_theme_dark_inversePrimary</color>
-
-    <!-- Matching colored background -->
-    <color name="backgroundColoredColor">@color/md_theme_light_primaryContainer</color>
-
-    <!-- Almost white background (i.e. secondary; to complement default white background) -->
-    <color name="backgroundDefaultColor">@color/cardview_light_background</color>
     <color name="color_light_red">#FFEEEE</color>
     <color name="color_dark_green">#00C860</color>
+
+    <!-- The following three colors are overridden in res/values-night/... -->
+    <!-- Almost white background (i.e. secondary; to complement default white background) -->
+    <color name="backgroundDefaultColor">@color/cardview_light_background</color>
 
     <color name="color_yes">@color/color_dark_green</color>
     <color name="color_no">@color/color_light_red</color>

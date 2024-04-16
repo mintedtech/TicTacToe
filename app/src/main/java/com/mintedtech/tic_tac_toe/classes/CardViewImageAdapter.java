@@ -135,7 +135,7 @@ public class CardViewImageAdapter extends RecyclerView.Adapter<CardImageViewHold
     private int calcHeightSize (Context context)
     {
         // constants - try changing these values to see the effect on image-spacing in the RV
-        final double SCALE = 4.5, SCALE_LANDSCAPE = 5.5;
+        final double SCALE = 4.5, SCALE_LANDSCAPE = 5.75;
         final int HEIGHT_PARAMETER;
 
         // getResources() is accessed via the Context passed in to the constructor - for orientation
